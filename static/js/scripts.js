@@ -1,6 +1,8 @@
 async function getRecommendations() {
     const movieName = document.getElementById('movieInput').value;
-    const response = await fetch('http://127.0.0.1:5000/recommend', {
+    const backendURL = "https://movie-recommendation-system-whek.onrender.com";
+
+    const response = await fetch(`${backendURL}/recommend`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ movie_name: movieName })
@@ -31,7 +33,7 @@ async function fetchSuggestions() {
     const query = document.getElementById('movieInput').value;
 
     if (query.length > 0) {
-        const response = await fetch(`http://127.0.0.1:5000/suggest?q=${query}`);
+        const response = await fetch(`${backendURL}/suggest?q=${query}`);
         const data = await response.json();
         const suggestions = data.suggestions;
 
