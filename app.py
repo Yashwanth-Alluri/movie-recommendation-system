@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, request, jsonify, render_template
 import pickle
 import requests
 
@@ -55,4 +55,4 @@ def suggest():
     return jsonify({'suggestions': suggestions['title'].tolist()})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=False)
