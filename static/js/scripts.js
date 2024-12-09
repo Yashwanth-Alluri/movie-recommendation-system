@@ -32,7 +32,7 @@ async function fetchSuggestions() {
     const query = document.getElementById('movieInput').value;
 
     if (query.length > 0) {
-        const response = await fetch(`$https://movie-recommendation-system-whek.onrender.com/suggest?q=${query}`);
+        const response = await fetch(`https://movie-recommendation-system-whek.onrender.com/suggest?q=${query}`);
         const data = await response.json();
         const suggestions = data.suggestions;
 
