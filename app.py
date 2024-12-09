@@ -7,7 +7,7 @@ app = Flask(__name__)
 import os
 
 def download_similarity_matrix():
-    url = "https://drive.google.com/uc?id=FILE_ID&export=download"  # Replace with your direct download link
+    url = "https://drive.google.com/uc?id=1hFX_xEGaQzZP1fHpfiyrGqW3OdYQ_Z8v&export=download"  # Replace with your direct download link
     save_path = "data/similarity_matrix.pkl"
     if not os.path.exists(save_path):
         print("Downloading similarity_matrix.pkl...")
