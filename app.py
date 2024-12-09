@@ -5,45 +5,27 @@ import requests
 app = Flask(__name__)
 
 import os
-
-def download_file_from_google_drive(file_id, destination):
-    URL = "https://drive.google.com/uc?export=download"
-    session = requests.Session()
-
-    response = session.get(URL, params={"id": file_id}, stream=True)
-    token = get_confirm_token(response)
-
-    if token:
-        params = {"id": file_id, "confirm": token}
-        response = session.get(URL, params=params, stream=True)
-
-    save_response_content(response, destination)
-
-def get_confirm_token(response):
-    for key, value in response.cookies.items():
-        if key.startswith("download_warning"):
-            return value
-    return None
-
-def save_response_content(response, destination):
-    with open(destination, "wb") as f:
-        for chunk in response.iter_content(32768):
-            if chunk:  # Filter out keep-alive new chunks
-                f.write(chunk)
+import requests
 
 def download_similarity_matrix():
-    file_id = "1hFX_xEGaQzZP1fHpfiyrGqW3OdYQ_Z8v"  # Replace with your file ID
+    url = "https://www.dropbox.com/scl/fi/7dne70f91kwtatyj8ql8q/similarity_matrix.pkl?rlkey=pnpdj7ne1pucrin405c0b11d8&st=chpzbstc&dl=1"
     destination = "data/similarity_matrix.pkl"
+    
     if not os.path.exists(destination):
+        print("Downloading similarity_matrix.pkl from Dropbox...")
+        response = requests.get(url)
+        response.raise_for_status()  # Ensure the request was successful
+        
         os.makedirs("data", exist_ok=True)
-        print("Downloading similarity_matrix.pkl from Google Drive...")
-        download_file_from_google_drive(file_id, destination)
+        with open(destination, "wb") as file:
+            file.write(response.content)
         print("Download completed!")
 
-# Call this function before loading the similarity_matrix
+# Call this function before loading the similarity matrix
 download_similarity_matrix()
 
-# Load the file as usual
+# Load the file
+import pickle
 similarity_matrix = pickle.load(open("data/similarity_matrix.pkl", "rb"))
 
 # Load preprocessed data
