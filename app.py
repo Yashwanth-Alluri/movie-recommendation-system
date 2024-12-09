@@ -75,8 +75,26 @@ def get_recommendations():
 @app.route('/suggest', methods=['GET'])
 def suggest():
     query = request.args.get('q', '').lower()
-    suggestions = movies[movies['title'].str.lower().str.contains(query)].head(10)
-    return jsonify({'suggestions': suggestions['title'].tolist()})
+    print(f"Received Query: {query}")  # Log the received query
+
+    try:
+        # Ensure movies DataFrame is loaded and contains the 'title' column
+        if movies.empty:
+            print("Error: Movies DataFrame is empty!")
+            return jsonify({'suggestions': []}), 500
+        
+        if 'title' not in movies.columns:
+            print("Error: 'title' column missing in Movies DataFrame!")
+            return jsonify({'suggestions': []}), 500
+
+        # Filter movies based on the query
+        suggestions = movies[movies['title'].str.lower().str.contains(query)].head(10)
+        print(f"Suggestions Found: {suggestions['title'].tolist()}")  # Log suggestions
+
+        return jsonify({'suggestions': suggestions['title'].tolist()})
+    except Exception as e:
+        print(f"Error in /suggest: {e}")  # Log the error
+        return jsonify({'suggestions': []}), 500
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=False)
