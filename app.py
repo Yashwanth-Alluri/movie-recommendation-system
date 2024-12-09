@@ -4,6 +4,26 @@ import requests
 
 app = Flask(__name__)
 
+import os
+
+def download_similarity_matrix():
+    url = "https://drive.google.com/uc?id=1hFX_xEGaQzZP1fHpfiyrGqW3OdYQ_Z8v&export=download"  # Replace with your direct download link
+    save_path = "data/similarity_matrix.pkl"
+    if not os.path.exists(save_path):
+        print("Downloading similarity_matrix.pkl...")
+        response = requests.get(url)
+        response.raise_for_status()  # Ensure the request was successful
+        os.makedirs("data", exist_ok=True)  # Ensure the data directory exists
+        with open(save_path, "wb") as file:
+            file.write(response.content)
+        print("Download completed!")
+
+# Call this function before loading the similarity_matrix
+download_similarity_matrix()
+
+# Load the file as usual
+similarity_matrix = pickle.load(open("data/similarity_matrix.pkl", "rb"))
+
 # Load preprocessed data
 movies = pickle.load(open('data/movies.pkl', 'rb'))  # Renamed file
 similarity_matrix = pickle.load(open('data/similarity_matrix.pkl', 'rb'))  # Renamed file
