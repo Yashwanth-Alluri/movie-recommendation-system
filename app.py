@@ -6,17 +6,38 @@ app = Flask(__name__)
 
 import os
 
+def download_file_from_google_drive(file_id, destination):
+    URL = "https://drive.google.com/uc?export=download"
+    session = requests.Session()
+
+    response = session.get(URL, params={"id": file_id}, stream=True)
+    token = get_confirm_token(response)
+
+    if token:
+        params = {"id": file_id, "confirm": token}
+        response = session.get(URL, params=params, stream=True)
+
+    save_response_content(response, destination)
+
+def get_confirm_token(response):
+    for key, value in response.cookies.items():
+        if key.startswith("download_warning"):
+            return value
+    return None
+
+def save_response_content(response, destination):
+    with open(destination, "wb") as f:
+        for chunk in response.iter_content(32768):
+            if chunk:  # Filter out keep-alive new chunks
+                f.write(chunk)
+
 def download_similarity_matrix():
-    url = "https://drive.google.com/uc?id=1hFX_xEGaQzZP1fHpfiyrGqW3OdYQ_Z8v&export=download"  # Replace with your direct download link
-    save_path = "data/similarity_matrix.pkl"
-    if not os.path.exists(save_path):
-        print("Downloading similarity_matrix.pkl...")
-        response = requests.get(url)
-        response.raise_for_status()  # Ensure the request was successful
-        print("Response content:", response.content[:100])  # Log first 100 bytes of response
+    file_id = "1hFX_xEGaQzZP1fHpfiyrGqW3OdYQ_Z8v"  # Replace with your file ID
+    destination = "data/similarity_matrix.pkl"
+    if not os.path.exists(destination):
         os.makedirs("data", exist_ok=True)
-        with open(save_path, "wb") as file:
-            file.write(response.content)
+        print("Downloading similarity_matrix.pkl from Google Drive...")
+        download_file_from_google_drive(file_id, destination)
         print("Download completed!")
 
 # Call this function before loading the similarity_matrix
