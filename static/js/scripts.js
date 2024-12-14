@@ -21,7 +21,7 @@ async function getRecommendations() {
             `).join('') +
             `</div>`;
     } else {
-        // Display a clean "movie not found" message
+       
         resultHTML += `<p class="not-found-message">Movie not found. Please try another title or correct the spelling.</p>`;
     }
 
@@ -53,7 +53,7 @@ async function fetchSuggestions() {
     }
 }
 
-// Hide suggestions when clicking outside
+
 document.addEventListener('click', function (e) {
     if (!document.querySelector('.input-group').contains(e.target)) {
         document.getElementById('suggestions').style.display = 'none';
