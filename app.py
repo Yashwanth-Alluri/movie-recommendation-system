@@ -14,27 +14,27 @@ def download_similarity_matrix():
     if not os.path.exists(destination):
         print("Downloading similarity_matrix.pkl from Dropbox...")
         response = requests.get(url)
-        response.raise_for_status()  # Ensure the request was successful
+        response.raise_for_status()  
         
         os.makedirs("data", exist_ok=True)
         with open(destination, "wb") as file:
             file.write(response.content)
         print("Download completed!")
 
-# Call this function before loading the similarity matrix
+
 download_similarity_matrix()
 
-# Load the file
+
 import pickle
 similarity_matrix = pickle.load(open("data/similarity_matrix.pkl", "rb"))
 
-# Load preprocessed data
-movies = pickle.load(open('data/movies.pkl', 'rb'))  # Renamed file
-similarity_matrix = pickle.load(open('data/similarity_matrix.pkl', 'rb'))  # Renamed file
 
-# Fetch movie poster using TMDb API
+movies = pickle.load(open('data/movies.pkl', 'rb'))  
+similarity_matrix = pickle.load(open('data/similarity_matrix.pkl', 'rb'))  
+
+
 def fetch_poster(movie_id):
-    api_key = "37611794e9a1aaaa2aa2f65b648681d5"  # Replace with your TMDb API key
+    api_key = "37611794e9a1aaaa2aa2f65b648681d5"  
     url = f"https://api.themoviedb.org/3/movie/{movie_id}?api_key={api_key}&language=en-US"
     response = requests.get(url).json()
     poster_path = response.get('poster_path')
@@ -42,7 +42,7 @@ def fetch_poster(movie_id):
         return f"https://image.tmdb.org/t/p/w500/{poster_path}"
     return None
 
-# Recommendation logic
+
 def recommend(movie):
     try:
         index = movies[movies['title'] == movie].index[0]
@@ -56,14 +56,14 @@ def recommend(movie):
             })
         return recommended_movies
     except IndexError:
-        return []  # Return an empty list when the movie is not found
+        return []  
 
-# Home route
+
 @app.route('/')
 def home():
     return render_template('index.html')
 
-# Recommendation route
+
 @app.route('/recommend', methods=['POST'])
 def get_recommendations():
     data = request.json
@@ -71,14 +71,14 @@ def get_recommendations():
     recommendations = recommend(movie_name)
     return jsonify({'recommendations': recommendations})
 
-# Suggestion route
+
 @app.route('/suggest', methods=['GET'])
 def suggest():
     query = request.args.get('q', '').lower()
-    print(f"Received Query: {query}")  # Log the received query
+    print(f"Received Query: {query}")  
 
     try:
-        # Ensure movies DataFrame is loaded and contains the 'title' column
+        
         if movies.empty:
             print("Error: Movies DataFrame is empty!")
             return jsonify({'suggestions': []}), 500
@@ -87,13 +87,13 @@ def suggest():
             print("Error: 'title' column missing in Movies DataFrame!")
             return jsonify({'suggestions': []}), 500
 
-        # Filter movies based on the query
+      
         suggestions = movies[movies['title'].str.lower().str.contains(query)].head(10)
-        print(f"Suggestions Found: {suggestions['title'].tolist()}")  # Log suggestions
+        print(f"Suggestions Found: {suggestions['title'].tolist()}") 
 
         return jsonify({'suggestions': suggestions['title'].tolist()})
     except Exception as e:
-        print(f"Error in /suggest: {e}")  # Log the error
+        print(f"Error in /suggest: {e}") 
         return jsonify({'suggestions': []}), 500
 
 if __name__ == '__main__':
