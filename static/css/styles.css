@@ -1,24 +1,24 @@
-/* Importing Custom Google Font */
+
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
 
-/* Global Styles */
+
 body {
     background: linear-gradient(135deg, #1f1c2c, #928dab);
     color: #fff;
-    font-family: 'Poppins', sans-serif; /* Custom Google Font */
+    font-family: 'Poppins', sans-serif; 
     margin: 0;
     padding: 0;
     overflow-x: hidden;
 }
 
 h1, h2 {
-    font-weight: 700; /* Bold for headings */
+    font-weight: 700; 
     color: #fff;
     margin-bottom: 10px;
 }
 
 p {
-    font-weight: 300; /* Light for subtext */
+    font-weight: 300;
     font-size: 16px;
     margin-bottom: 20px;
     color: #f0f0f0;
@@ -32,11 +32,11 @@ p {
     border-radius: 10px;
 }
 
-/* Input and Button Styling */
+
 .input-group {
     margin: 20px auto;
     max-width: 600px;
-    position: relative; /* Ensures suggestions align correctly */
+    position: relative; 
 }
 
 .form-control {
@@ -63,7 +63,7 @@ p {
     border-radius: 20px;
     padding: 10px 20px;
     font-size: 16px;
-    font-weight: 600; /* Semi-bold for better emphasis */
+    font-weight: 600; 
     color: white;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -74,47 +74,45 @@ p {
     box-shadow: 0 5px 15px rgba(106, 17, 203, 0.5);
 }
 
-/* Suggestions Dropdown Styling */
+
 #suggestions {
     position: absolute;
-    top: calc(100% + 5px); /* Space below the input field */
+    top: calc(100% + 5px); 
     left: 0;
     right: 0;
     z-index: 1000;
-    max-height: 200px; /* Limit the dropdown height */
+    max-height: 200px; 
     overflow-y: auto;
     border: 1px solid #ddd;
     background-color: #fff;
     color: #333;
-    border-radius: 10px; /* Rounded corners */
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for better aesthetics */
+    border-radius: 10px; 
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); 
     padding: 0;
     list-style: none;
 }
 
-/* Individual Suggestion Items */
+
 .suggestion-item {
-    padding: 10px 15px; /* Add spacing for better readability */
+    padding: 10px 15px; 
     font-size: 14px;
     font-weight: 400;
     color: #333;
     cursor: pointer;
-    border-bottom: 1px solid #f0f0f0; /* Separate items visually */
+    border-bottom: 1px solid #f0f0f0; 
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Remove border for the last item */
 .suggestion-item:last-child {
     border-bottom: none;
 }
 
-/* Hover effect for suggestion items */
 .suggestion-item:hover {
-    background-color: #f8f9fa; /* Light gray for hover */
-    color: #2575fc; /* Accent color */
+    background-color: #f8f9fa; 
+    color: #2575fc; 
 }
 
-/* Scrollbar styling for overflow */
+
 #suggestions::-webkit-scrollbar {
     width: 8px;
 }
@@ -128,7 +126,7 @@ p {
     background-color: #aaa;
 }
 
-/* Movie Grid Styling */
+
 .movie-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -165,7 +163,7 @@ p {
     text-align: center;
 }
 
-/* Footer */
+
 footer {
     margin-top: 50px;
     text-align: center;
@@ -183,7 +181,7 @@ footer a:hover {
     text-decoration: underline;
 }
 
-/* Responsive Adjustments */
+
 @media (max-width: 600px) {
     .form-control {
         font-size: 14px;
